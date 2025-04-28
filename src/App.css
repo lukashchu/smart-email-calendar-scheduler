@@ -8,3 +8,31 @@
   padding: 1rem;
   background-color: white;
 }
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.calendar-table th,
+.calendar-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.calendar-table td.time-block {
+  background-color: #f9f9f9;
+  transition: background-color 0.3s;
+}
+
+.calendar-table td.time-block:hover {
+  background-color: #e0e0e0;
+}
+
+.calendar-table td.time-block.selected {
+  background-color: #4caf50;
+  color: white;
+}

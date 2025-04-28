@@ -5,6 +5,7 @@ import Hello from "./components/Hello";
 function App() {
   const [openAiKey, setOpenAiKey] = useState("");
   const [isKeySaved, setIsKeySaved] = useState(false);
+  const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<Date[]>([]);
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -23,6 +24,35 @@ function App() {
     }
   };
 
+  const generateTimeBlocks = () => {
+    const timeBlocks = [];
+    const now = new Date();
+    for (let day = 0; day < 5; day++) {
+      const date = new Date(now);
+      date.setDate(now.getDate() + day);
+      const dayBlocks = [];
+      for (let hour = 9; hour < 21; hour++) { // Restrict hours from 9am to 9pm
+        for (let minute = 0; minute < 60; minute += 30) {
+          const time = new Date(date);
+          time.setHours(hour, minute, 0, 0);
+          dayBlocks.push(time);
+        }
+      }
+      timeBlocks.push(dayBlocks);
+    }
+    return timeBlocks;
+  };
+
+  const handleTimeBlockClick = (timeBlock: Date) => {
+    setSelectedTimeBlocks((prev) => {
+      if (prev.includes(timeBlock)) {
+        return prev.filter((block) => block !== timeBlock);
+      } else {
+        return [...prev, timeBlock];
+      }
+    });
+  };
+
   if (!isKeySaved) {
     return (
       <div className="App">
@@ -38,10 +68,39 @@ function App() {
     );
   }
 
+  const timeBlocks = generateTimeBlocks();
+
   return (
     <div className="App">
-      <h1>Welcome to the Home Page</h1>
-      <Hello person="World" />
+      <h1>Select Time Blocks</h1>
+      <table className="calendar-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            {timeBlocks.map((_, dayIndex) => (
+              <th key={dayIndex}>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 48 }).map((_, timeIndex) => {
+            const hour = Math.floor(timeIndex / 2);
+            const minute = timeIndex % 2 === 0 ? "00" : "30";
+            return (
+              <tr key={timeIndex}>
+                <td>{`${hour}:${minute}`}</td>
+                {timeBlocks.map((dayBlocks, dayIndex) => (
+                  <td
+                    key={dayIndex}
+                    className={`time-block ${selectedTimeBlocks.includes(dayBlocks[timeIndex]) ? "selected" : ""}`}
+                    onClick={() => handleTimeBlockClick(dayBlocks[timeIndex])}
+                  ></td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
