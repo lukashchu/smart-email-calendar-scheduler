@@ -123,12 +123,16 @@ input[type="password"]:focus {
   margin-bottom: 1rem; /* Add space below the button */
 }
 
+/* Enhance the text box for modern UI */
 .availability-output {
   border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: #f9f9f9;
+  padding: 1rem; /* Increase padding for a larger appearance */
+  border-radius: 8px; /* Rounder corners for modern design */
+  background-color: #ffffff; /* Pure white background for a clean look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-size: 1.1rem; /* Slightly larger font for better readability */
   white-space: pre-wrap; /* Preserve whitespace for better formatting */
+  position: relative; /* Set the text box as the positioning context */
 }
 
 /* Add spacing and modern UI design for the model selection */
@@ -163,4 +167,27 @@ input[type="password"]:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Adjust the copy button to be positioned relative to the text box */
+.copy-button {
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.copy-button:hover {
+  color: inherit !important; /* Prevent hover color change */
+  background: none !important;
+  border: none !important;
+  transform: scale(1.1);
+}
+
+.copy-button:active {
+  transform: scale(0.98);
 }
