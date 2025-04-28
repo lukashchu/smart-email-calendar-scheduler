@@ -118,22 +118,32 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 24 }).map((_, timeIndex) => {
-            const hour = 9 + Math.floor(timeIndex / 2); // Start from 9 AM
-            const minute = timeIndex % 2 === 0 ? "00" : "30";
+          {Array.from({ length: 12 }).map((_, hourIndex) => {
+            const hour = 9 + hourIndex; // Start from 9 AM
             const period = hour >= 12 ? "PM" : "AM";
             const standardHour = hour > 12 ? hour - 12 : hour;
             return (
-              <tr key={timeIndex}>
-                <td>{`${standardHour}:${minute} ${period}`}</td>
-                {timeBlocks.map((dayBlocks, dayIndex) => (
-                  <td
-                    key={dayIndex}
-                    className={`time-block ${selectedTimeBlocks.includes(dayBlocks[timeIndex].toISOString()) ? "selected" : ""}`}
-                    onClick={() => handleTimeBlockClick(dayBlocks[timeIndex])}
-                  ></td>
-                ))}
-              </tr>
+              <React.Fragment key={hourIndex}>
+                <tr>
+                  <td rowSpan={2}>{`${standardHour}:00 ${period}`}</td>
+                  {timeBlocks.map((dayBlocks, dayIndex) => (
+                    <td
+                      key={`day-${dayIndex}-hour-${hourIndex}-first`}
+                      className={`time-block ${selectedTimeBlocks.includes(dayBlocks[hourIndex * 2].toISOString()) ? "selected" : ""}`}
+                      onClick={() => handleTimeBlockClick(dayBlocks[hourIndex * 2])}
+                    ></td>
+                  ))}
+                </tr>
+                <tr>
+                  {timeBlocks.map((dayBlocks, dayIndex) => (
+                    <td
+                      key={`day-${dayIndex}-hour-${hourIndex}-second`}
+                      className={`time-block ${selectedTimeBlocks.includes(dayBlocks[hourIndex * 2 + 1].toISOString()) ? "selected" : ""}`}
+                      onClick={() => handleTimeBlockClick(dayBlocks[hourIndex * 2 + 1])}
+                    ></td>
+                  ))}
+                </tr>
+              </React.Fragment>
             );
           })}
         </tbody>
