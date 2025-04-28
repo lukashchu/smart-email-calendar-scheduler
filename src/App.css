@@ -82,6 +82,20 @@ button:disabled {
   cursor: pointer;
 }
 
+.settings-button:hover {
+  color: inherit !important; /* Prevent hover color change */
+  background: none !important;
+  border: none !important;
+  transform: scale(1.1);
+}
+
+.back-button:hover {
+  color: inherit !important; /* Prevent hover color change */
+  background: none !important;
+  border: none !important;
+  transform: scale(1.1);
+}
+
 input[type="password"] {
   font-family: Arial, sans-serif;
   font-size: 1rem;
