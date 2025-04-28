@@ -129,6 +129,7 @@ input[type="password"]:focus {
   border-radius: 4px;
   background-color: #f9f9f9;
   white-space: pre-wrap; /* Preserve whitespace for better formatting */
+  position: relative; /* Set the text box as the positioning context */
 }
 
 /* Add spacing and modern UI design for the model selection */
@@ -163,4 +164,27 @@ input[type="password"]:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Adjust the copy button to be positioned relative to the text box */
+.copy-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.copy-button:hover {
+  color: inherit !important; /* Prevent hover color change */
+  background: none !important;
+  border: none !important;
+  transform: scale(1.1);
+}
+
+.copy-button:active {
+  transform: scale(0.98);
 }

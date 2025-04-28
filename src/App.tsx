@@ -201,7 +201,17 @@ function App() {
         Generate Availability
       </button>
       {generatedAvailability && (
-        <div className="availability-output">{generatedAvailability}</div>
+        // Add a copy button to the availability output
+        <div className="availability-output">
+          <button
+            className="copy-button"
+            onClick={() => navigator.clipboard.writeText(generatedAvailability || "")}
+            aria-label="Copy"
+          >
+            📋
+          </button>
+          {generatedAvailability}
+        </div>
       )}
     </div>
   );
