@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension React/TypeScript Starter",
+  "name": "Smart Calendar Scheduler",
   "version": "1.0",
-  "description": "Template for a Chrome Extension using React/TypeScript and built with Vite",
+  "description": "Easily schedule meetings by sending availability in the click of a button.",
   "icons": {
     "16": "images/favicon-16x16.png",
     "32": "images/favicon-32x32.png",
