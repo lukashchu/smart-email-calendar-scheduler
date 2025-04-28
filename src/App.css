@@ -117,3 +117,16 @@ input[type="password"]:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
+
+/* Add spacing and style for the availability output */
+.generate-availability-button {
+  margin-bottom: 1rem; /* Add space below the button */
+}
+
+.availability-output {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  white-space: pre-wrap; /* Preserve whitespace for better formatting */
+}

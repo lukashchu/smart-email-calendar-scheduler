@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Hello from "./components/Hello";
+import OpenAI from "openai";
 
 function App() {
   const [openAiKey, setOpenAiKey] = useState("");
   const [isKeySaved, setIsKeySaved] = useState(false);
   const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<string[]>([]);
   const [isSettingsPage, setIsSettingsPage] = useState(false); // State to toggle between pages
+  const [generatedAvailability, setGeneratedAvailability] = useState("");
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -52,6 +54,29 @@ function App() {
         ? prev.filter((block) => block !== timeBlockString)
         : [...prev, timeBlockString];
     });
+  };
+
+  const handleGenerateAvailability = async () => {
+    const openai = new OpenAI({
+      apiKey: atob(localStorage.getItem("encryptedOpenAiKey") || ""),
+      dangerouslyAllowBrowser: true, // Enable browser usage with caution
+    });
+
+    const prompt = `Generate a professional, simple sentence that provides availability for the following 5 days based on the provided time slots. Group contiguous time slots together:\n\n${selectedTimeBlocks.join(", ")}`;
+
+    try {
+      const response = await openai.completions.create({
+        model: "text-davinci-003",
+        prompt,
+        max_tokens: 150,
+      });
+
+      const availabilityText = response.choices[0].text?.trim();
+      setGeneratedAvailability(availabilityText || "No response from AI.");
+    } catch (error) {
+      console.error("Error generating availability:", error);
+      setGeneratedAvailability("Failed to generate availability. Please try again.");
+    }
   };
 
   if (!isKeySaved) {
@@ -148,6 +173,13 @@ function App() {
           })}
         </tbody>
       </table>
+      {/* Add a button under the calendar */}
+      <button className="generate-availability-button" onClick={handleGenerateAvailability}>
+        Generate Availability
+      </button>
+      {generatedAvailability && (
+        <div className="availability-output">{generatedAvailability}</div>
+      )}
     </div>
   );
 }
