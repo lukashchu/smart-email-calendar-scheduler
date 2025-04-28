@@ -29,9 +29,9 @@ function App() {
     const now = new Date();
     for (let day = 0; day < 5; day++) {
       const date = new Date(now);
-      date.setDate(now.getDate() + day);
+      date.setDate(now.getDate() + day); // Correctly calculate the next 5 days
       const dayBlocks = [];
-      for (let hour = 9; hour < 21; hour++) { // Restrict hours from 9am to 9pm
+      for (let hour = 9; hour < 21; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
           const time = new Date(date);
           time.setHours(hour, minute, 0, 0);
@@ -77,9 +77,19 @@ function App() {
         <thead>
           <tr>
             <th>Time</th>
-            {timeBlocks.map((_, dayIndex) => (
-              <th key={dayIndex}>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}</th>
-            ))}
+            {timeBlocks.map((_, dayIndex) => {
+              const date = new Date();
+              date.setDate(date.getDate() + dayIndex); // Correctly calculate the date for each day
+              return (
+                <th key={dayIndex}>
+                  {date.toLocaleDateString(undefined, {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>
