@@ -64,6 +64,7 @@ function App() {
           value={openAiKey}
           onChange={(e) => setOpenAiKey(e.target.value)}
         />
+        <br /> {/* Add a line break to position the button below the input field */}
         <button onClick={handleSaveKey}>Save Key</button>
       </div>
     );
@@ -76,7 +77,15 @@ function App() {
           <span role="img" aria-label="Back">🔙</span>
         </button>
         <h1>Settings</h1>
-        <p>Settings page content goes here.</p>
+        <button
+          className="remove-key-button"
+          onClick={() => {
+            localStorage.removeItem("encryptedOpenAiKey");
+            setIsKeySaved(false);
+          }}
+        >
+          Remove OpenAI Key
+        </button>
       </div>
     );
   }

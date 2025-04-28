@@ -37,6 +37,31 @@
   color: white;
 }
 
+button {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 .settings-button {
   position: absolute;
   top: 10px;
@@ -55,4 +80,21 @@
   background: none;
   border: none;
   cursor: pointer;
+}
+
+input[type="password"] {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem; /* Add spacing between the text field and the button */
+}
+
+input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
