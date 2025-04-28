@@ -6,7 +6,7 @@ Scheduling meetings over email is often time-consuming and repetitive. When some
 
 ### Install From Release
 
-- Download the latest release from the [Releases](https://github.com/lukashchu/smart-email-calendar-scheduler)
+- Download the latest release from the [Releases](https://github.com/lukashchu/smart-email-calendar-scheduler/releases)
 - Unzip the downloaded ZIP file
 - Open Chrome and navigate to `chrome://extensions`
 - Enable "Developer mode"
