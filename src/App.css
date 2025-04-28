@@ -33,8 +33,13 @@
 }
 
 .calendar-table td.time-block.selected {
-  background-color: #4caf50;
+  background-color: #007bff; /* Blue color */
   color: white;
+}
+
+/* Add hover effect for selected time blocks */
+.calendar-table td.time-block.selected:hover {
+  background-color: #0056b3; /* Slightly darker blue */
 }
 
 button {
@@ -108,6 +113,53 @@ input[type="password"] {
 }
 
 input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Add spacing and style for the availability output */
+.generate-availability-button {
+  margin-bottom: 1rem; /* Add space below the button */
+}
+
+.availability-output {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  white-space: pre-wrap; /* Preserve whitespace for better formatting */
+}
+
+/* Add spacing and modern UI design for the model selection */
+.remove-key-button {
+  margin-bottom: 1.5rem; /* Add space below the Remove AI Key button */
+}
+
+/* Center the model selection dropdown */
+.model-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the dropdown */
+  gap: 0.5rem;
+}
+
+.model-selection label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.model-selection select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.model-selection select:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);

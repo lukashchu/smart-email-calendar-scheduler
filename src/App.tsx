@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Hello from "./components/Hello";
+import OpenAI from "openai";
 
 function App() {
   const [openAiKey, setOpenAiKey] = useState("");
   const [isKeySaved, setIsKeySaved] = useState(false);
-  const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<Date[]>([]);
+  const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<string[]>([]);
   const [isSettingsPage, setIsSettingsPage] = useState(false); // State to toggle between pages
+  const [generatedAvailability, setGeneratedAvailability] = useState("");
+  // Add a dropdown to select OpenAI models
+  const [selectedModel, setSelectedModel] = useState("gpt-3.5-turbo");
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -45,13 +49,42 @@ function App() {
   };
 
   const handleTimeBlockClick = (timeBlock: Date) => {
+    const timeBlockString = timeBlock.toISOString();
     setSelectedTimeBlocks((prev) => {
-      if (prev.includes(timeBlock)) {
-        return prev.filter((block) => block !== timeBlock);
-      } else {
-        return [...prev, timeBlock];
-      }
+      const isSelected = prev.includes(timeBlockString);
+      return isSelected
+        ? prev.filter((block) => block !== timeBlockString)
+        : [...prev, timeBlockString];
     });
+  };
+
+  const handleGenerateAvailability = async () => {
+    const openai = new OpenAI({
+      apiKey: atob(localStorage.getItem("encryptedOpenAiKey") || ""),
+      dangerouslyAllowBrowser: true, // Enable browser usage with caution
+    });
+
+    const prompt = `Generate a professional, simple sentence that provides availability for the following 5 days based on the provided time slots. Group contiguous time slots together:\n\n${selectedTimeBlocks.join(", ")}`;
+
+    try {
+      // Default to 'gpt-3.5-turbo' if no model is selected
+      const modelToUse = selectedModel || "gpt-3.5-turbo";
+
+      const response = await openai.chat.completions.create({
+        model: modelToUse,
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: prompt },
+        ],
+        max_tokens: 150,
+      });
+
+      const availabilityText = response.choices?.[0]?.message?.content?.trim() || "No response from AI.";
+      setGeneratedAvailability(availabilityText);
+    } catch (error) {
+      console.error("Error generating availability:", error);
+      setGeneratedAvailability("Failed to generate availability. Please try again.");
+    }
   };
 
   if (!isKeySaved) {
@@ -66,6 +99,10 @@ function App() {
         />
         <br /> {/* Add a line break to position the button below the input field */}
         <button onClick={handleSaveKey}>Save Key</button>
+        {/* Add a link under the Save Key button */}
+        <p>
+          Access your API key <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
       </div>
     );
   }
@@ -86,6 +123,17 @@ function App() {
         >
           Remove OpenAI Key
         </button>
+        <div className="model-selection">
+          <label htmlFor="model-select">Select OpenAI Model:</label>
+          <select
+            id="model-select"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+          >
+            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+            <option value="gpt-4">GPT-4</option>
+          </select>
+        </div>
       </div>
     );
   }
@@ -118,26 +166,43 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 24 }).map((_, timeIndex) => {
-            const hour = 9 + Math.floor(timeIndex / 2); // Start from 9 AM
-            const minute = timeIndex % 2 === 0 ? "00" : "30";
+          {Array.from({ length: 12 }).map((_, hourIndex) => {
+            const hour = 9 + hourIndex; // Start from 9 AM
             const period = hour >= 12 ? "PM" : "AM";
             const standardHour = hour > 12 ? hour - 12 : hour;
             return (
-              <tr key={timeIndex}>
-                <td>{`${standardHour}:${minute} ${period}`}</td>
-                {timeBlocks.map((dayBlocks, dayIndex) => (
-                  <td
-                    key={dayIndex}
-                    className={`time-block ${selectedTimeBlocks.includes(dayBlocks[timeIndex]) ? "selected" : ""}`}
-                    onClick={() => handleTimeBlockClick(dayBlocks[timeIndex])}
-                  ></td>
-                ))}
-              </tr>
+              <React.Fragment key={hourIndex}>
+                <tr>
+                  <td rowSpan={2}>{`${standardHour}:00 ${period}`}</td>
+                  {timeBlocks.map((dayBlocks, dayIndex) => (
+                    <td
+                      key={`day-${dayIndex}-hour-${hourIndex}-first`}
+                      className={`time-block ${selectedTimeBlocks.includes(dayBlocks[hourIndex * 2].toISOString()) ? "selected" : ""}`}
+                      onClick={() => handleTimeBlockClick(dayBlocks[hourIndex * 2])}
+                    ></td>
+                  ))}
+                </tr>
+                <tr>
+                  {timeBlocks.map((dayBlocks, dayIndex) => (
+                    <td
+                      key={`day-${dayIndex}-hour-${hourIndex}-second`}
+                      className={`time-block ${selectedTimeBlocks.includes(dayBlocks[hourIndex * 2 + 1].toISOString()) ? "selected" : ""}`}
+                      onClick={() => handleTimeBlockClick(dayBlocks[hourIndex * 2 + 1])}
+                    ></td>
+                  ))}
+                </tr>
+              </React.Fragment>
             );
           })}
         </tbody>
       </table>
+      {/* Add a button under the calendar */}
+      <button className="generate-availability-button" onClick={handleGenerateAvailability}>
+        Generate Availability
+      </button>
+      {generatedAvailability && (
+        <div className="availability-output">{generatedAvailability}</div>
+      )}
     </div>
   );
 }
