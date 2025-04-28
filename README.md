@@ -1,12 +1,12 @@
-# Chrome Extension Starter (React, TypeScript, Vite)
+# Smart Calendar Scheduler
 
-This project demonstrates how to build a Chrome extension using [React](https://react.dev/) with TypeScript and Vite. It showcases key features such as interacting with Chrome APIs ([storage](https://developer.chrome.com/docs/extensions/reference/api/storage), [contextMenus](https://developer.chrome.com/docs/extensions/reference/api/contextMenus)), testing with [Jest](https://jestjs.io/) and [Sinon](https://sinonjs.org/), and structuring a React app with separation of concerns.
+Scheduling meetings over email is often time-consuming and repetitive. When someone asks, "When are you free to meet next week?", users typically have to switch tabs, check their calendar, and manually type out their availability. This workflow is especially inefficient for busy professionals managing multiple events. Our extension reduces this friction by automatically generating natural-language availability responses based on the user’s calendar, streamlining the scheduling process.
 
 ## Installation
 
 ### Install From Release
 
-- Download the latest release from the [Releases](https://github.com/CIS-3500/chrome-extension-react-typescript-vite-starter-main/releases)
+- Download the latest release from the [Releases](https://github.com/lukashchu/smart-email-calendar-scheduler)
 - Unzip the downloaded ZIP file
 - Open Chrome and navigate to `chrome://extensions`
 - Enable "Developer mode"
@@ -17,13 +17,13 @@ This project demonstrates how to build a Chrome extension using [React](https://
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/CIS-3500/chrome-extension-react-typescript-vite-starter-main
+   git clone https://github.com/lukashchu/smart-email-calendar-scheduler
    ```
 
 2. Install dependencies:
 
    ```bash
-   cd chrome-extension-react-typescript-vite-starter-main
+   cd smart-email-calendar-scheduler
    npm install
    ```
 
@@ -121,3 +121,5 @@ The initial setup of this project was based on the tutorial by [Harshita Joshi](
 Further setup was done by [Michelle Chang](https://github.com/michellechang02) by replacing the Webpack initialization of the app with Vite.
 
 The project has been extended with additional functionality, testing setup, and documentation. The most difficult part was figuring out the right combination of packages for the testing suite (for instance, I would avoid `jest-chrome`, `mockzilla`, `mockzilla-webextension`, to name but a few).
+
+The project was completed by a team of 4 students, [Andrew Lukashchuk](https://github.com/lukashchu), [Dewayne Barnes](https://github.com/evanition), [Sphia Sadek](https://github.com/isadeks), and [Nicholas Molina](https://github.com/ngmolina), on top of the template created with the previous attributions.
