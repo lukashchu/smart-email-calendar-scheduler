@@ -29,9 +29,9 @@ function App() {
     const now = new Date();
     for (let day = 0; day < 5; day++) {
       const date = new Date(now);
-      date.setDate(now.getDate() + day); // Correctly calculate the next 5 days
+      date.setDate(now.getDate() + day);
       const dayBlocks = [];
-      for (let hour = 9; hour < 21; hour++) {
+      for (let hour = 9; hour < 21; hour++) { // Restrict hours from 9 AM to 9 PM
         for (let minute = 0; minute < 60; minute += 30) {
           const time = new Date(date);
           time.setHours(hour, minute, 0, 0);
@@ -79,7 +79,7 @@ function App() {
             <th>Time</th>
             {timeBlocks.map((_, dayIndex) => {
               const date = new Date();
-              date.setDate(date.getDate() + dayIndex); // Correctly calculate the date for each day
+              date.setDate(date.getDate() + dayIndex);
               return (
                 <th key={dayIndex}>
                   {date.toLocaleDateString(undefined, {
@@ -93,12 +93,14 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 48 }).map((_, timeIndex) => {
-            const hour = Math.floor(timeIndex / 2);
+          {Array.from({ length: 24 }).map((_, timeIndex) => {
+            const hour = 9 + Math.floor(timeIndex / 2); // Start from 9 AM
             const minute = timeIndex % 2 === 0 ? "00" : "30";
+            const period = hour >= 12 ? "PM" : "AM";
+            const standardHour = hour > 12 ? hour - 12 : hour;
             return (
               <tr key={timeIndex}>
-                <td>{`${hour}:${minute}`}</td>
+                <td>{`${standardHour}:${minute} ${period}`}</td>
                 {timeBlocks.map((dayBlocks, dayIndex) => (
                   <td
                     key={dayIndex}
