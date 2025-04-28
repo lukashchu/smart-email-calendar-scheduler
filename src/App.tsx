@@ -5,7 +5,7 @@ import Hello from "./components/Hello";
 function App() {
   const [openAiKey, setOpenAiKey] = useState("");
   const [isKeySaved, setIsKeySaved] = useState(false);
-  const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<Date[]>([]);
+  const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<string[]>([]);
   const [isSettingsPage, setIsSettingsPage] = useState(false); // State to toggle between pages
 
   useEffect(() => {
@@ -45,12 +45,12 @@ function App() {
   };
 
   const handleTimeBlockClick = (timeBlock: Date) => {
+    const timeBlockString = timeBlock.toISOString();
     setSelectedTimeBlocks((prev) => {
-      if (prev.includes(timeBlock)) {
-        return prev.filter((block) => block !== timeBlock);
-      } else {
-        return [...prev, timeBlock];
-      }
+      const isSelected = prev.includes(timeBlockString);
+      return isSelected
+        ? prev.filter((block) => block !== timeBlockString)
+        : [...prev, timeBlockString];
     });
   };
 
@@ -129,7 +129,7 @@ function App() {
                 {timeBlocks.map((dayBlocks, dayIndex) => (
                   <td
                     key={dayIndex}
-                    className={`time-block ${selectedTimeBlocks.includes(dayBlocks[timeIndex]) ? "selected" : ""}`}
+                    className={`time-block ${selectedTimeBlocks.includes(dayBlocks[timeIndex].toISOString()) ? "selected" : ""}`}
                     onClick={() => handleTimeBlockClick(dayBlocks[timeIndex])}
                   ></td>
                 ))}
