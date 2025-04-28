@@ -33,7 +33,7 @@
 }
 
 .calendar-table td.time-block.selected {
-  background-color: #4caf50;
+  background-color: #007bff; /* Blue color */
   color: white;
 }
 
