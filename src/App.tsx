@@ -11,6 +11,8 @@ function App() {
   const [generatedAvailability, setGeneratedAvailability] = useState("");
   // Add a dropdown to select OpenAI models
   const [selectedModel, setSelectedModel] = useState("gpt-3.5-turbo");
+  const [logEntries, setLogEntries] = useState<string[]>([]); // State to store log entries
+  const [currentLogIndex, setCurrentLogIndex] = useState(0); // State to track the current log index
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -81,9 +83,26 @@ function App() {
 
       const availabilityText = response.choices?.[0]?.message?.content?.trim() || "No response from AI.";
       setGeneratedAvailability(availabilityText);
+      setLogEntries((prevLogs) => {
+        const updatedLogs = [...prevLogs, availabilityText];
+        setCurrentLogIndex(updatedLogs.length - 1); // Update index to the latest log
+        return updatedLogs;
+      }); // Add the generated output to the logs
     } catch (error) {
       console.error("Error generating availability:", error);
       setGeneratedAvailability("Failed to generate availability. Please try again.");
+    }
+  };
+
+  const handleNextLog = () => {
+    if (currentLogIndex < logEntries.length - 1) {
+      setCurrentLogIndex(currentLogIndex + 1);
+    }
+  };
+
+  const handlePreviousLog = () => {
+    if (currentLogIndex > 0) {
+      setCurrentLogIndex(currentLogIndex - 1);
     }
   };
 
@@ -133,6 +152,20 @@ function App() {
             <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
             <option value="gpt-4">GPT-4</option>
           </select>
+        </div>
+        <div className="spacer" style={{ marginBottom: "2rem" }}></div>
+        {/* Log viewer at the bottom of the settings page */}
+        <div className="log-viewer" style={{ textAlign: "center" }}>
+          <h2 style={{ marginBottom: "1rem" }}>Output History</h2>
+          <div className="log-box" style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", marginBottom: "1rem" }}>
+            {logEntries[currentLogIndex] || "No logs available"}
+          </div>
+          <button onClick={handlePreviousLog} disabled={currentLogIndex === 0} style={{ marginRight: "1rem" }}>
+            ◀
+          </button>
+          <button onClick={handleNextLog} disabled={currentLogIndex === logEntries.length - 1} style={{ marginLeft: "1rem" }}>
+            ▶
+          </button>
         </div>
       </div>
     );
