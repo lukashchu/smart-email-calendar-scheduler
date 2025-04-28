@@ -6,6 +6,7 @@ function App() {
   const [openAiKey, setOpenAiKey] = useState("");
   const [isKeySaved, setIsKeySaved] = useState(false);
   const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<Date[]>([]);
+  const [isSettingsPage, setIsSettingsPage] = useState(false); // State to toggle between pages
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -68,10 +69,25 @@ function App() {
     );
   }
 
+  if (isSettingsPage) {
+    return (
+      <div className="App">
+        <button className="back-button" onClick={() => setIsSettingsPage(false)}>
+          <span role="img" aria-label="Back">🔙</span>
+        </button>
+        <h1>Settings</h1>
+        <p>Settings page content goes here.</p>
+      </div>
+    );
+  }
+
   const timeBlocks = generateTimeBlocks();
 
   return (
     <div className="App">
+      <button className="settings-button" onClick={() => setIsSettingsPage(true)}>
+        <span role="img" aria-label="Settings">⚙️</span>
+      </button>
       <h1>Select Time Blocks</h1>
       <table className="calendar-table">
         <thead>
