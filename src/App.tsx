@@ -9,6 +9,8 @@ function App() {
   const [selectedTimeBlocks, setSelectedTimeBlocks] = useState<string[]>([]);
   const [isSettingsPage, setIsSettingsPage] = useState(false); // State to toggle between pages
   const [generatedAvailability, setGeneratedAvailability] = useState("");
+  // Add a dropdown to select OpenAI models
+  const [selectedModel, setSelectedModel] = useState("gpt-3.5-turbo");
 
   useEffect(() => {
     // Check if the key is already saved in localStorage
@@ -65,14 +67,20 @@ function App() {
     const prompt = `Generate a professional, simple sentence that provides availability for the following 5 days based on the provided time slots. Group contiguous time slots together:\n\n${selectedTimeBlocks.join(", ")}`;
 
     try {
-      const response = await openai.completions.create({
-        model: "text-davinci-003",
-        prompt,
+      // Default to 'gpt-3.5-turbo' if no model is selected
+      const modelToUse = selectedModel || "gpt-3.5-turbo";
+
+      const response = await openai.chat.completions.create({
+        model: modelToUse,
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: prompt },
+        ],
         max_tokens: 150,
       });
 
-      const availabilityText = response.choices[0].text?.trim();
-      setGeneratedAvailability(availabilityText || "No response from AI.");
+      const availabilityText = response.choices?.[0]?.message?.content?.trim() || "No response from AI.";
+      setGeneratedAvailability(availabilityText);
     } catch (error) {
       console.error("Error generating availability:", error);
       setGeneratedAvailability("Failed to generate availability. Please try again.");
@@ -91,6 +99,10 @@ function App() {
         />
         <br /> {/* Add a line break to position the button below the input field */}
         <button onClick={handleSaveKey}>Save Key</button>
+        {/* Add a link under the Save Key button */}
+        <p>
+          Access your API key <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
       </div>
     );
   }
@@ -111,6 +123,17 @@ function App() {
         >
           Remove OpenAI Key
         </button>
+        <div className="model-selection">
+          <label htmlFor="model-select">Select OpenAI Model:</label>
+          <select
+            id="model-select"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+          >
+            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+            <option value="gpt-4">GPT-4</option>
+          </select>
+        </div>
       </div>
     );
   }
