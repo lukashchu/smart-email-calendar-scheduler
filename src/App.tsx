@@ -22,6 +22,21 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    // Load logs from localStorage on initialization
+    const savedLogs = localStorage.getItem("logEntries");
+    if (savedLogs) {
+      const parsedLogs = JSON.parse(savedLogs);
+      setLogEntries(parsedLogs);
+      setCurrentLogIndex(parsedLogs.length - 1); // Set to the latest log
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save logs to localStorage whenever they are updated
+    localStorage.setItem("logEntries", JSON.stringify(logEntries));
+  }, [logEntries]);
+
   const handleSaveKey = () => {
     if (openAiKey) {
       // Encrypt the key (simple base64 for demonstration; replace with stronger encryption in production)
