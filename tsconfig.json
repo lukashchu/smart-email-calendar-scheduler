@@ -19,7 +19,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": ["./src/globals.d.ts", "./node_modules/@types"]
+    "typeRoots": ["./src/globals.d.ts", "./node_modules/@types"],
+    "types": ["@testing-library/jest-dom"]
   },
   "include": [
     "src",

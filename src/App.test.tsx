@@ -15,4 +15,15 @@ describe("App", () => {
     const helloElement = screen.getByText("Hello World");
     expect(helloElement).toBeInTheDocument();
   });
+
+  it("renders without crashing", () => {
+    const { container } = render(<App />);
+    expect(container).toBeInTheDocument();
+  });
+
+  it("contains a button with specific text", () => {
+    render(<App />);
+    const buttonElement = screen.getByRole("button", { name: /Click Me/i });
+    expect(buttonElement).toBeInTheDocument();
+  });
 });

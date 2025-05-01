@@ -22,6 +22,21 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    // Load logs from localStorage on initialization
+    const savedLogs = localStorage.getItem("logEntries");
+    if (savedLogs) {
+      const parsedLogs = JSON.parse(savedLogs);
+      setLogEntries(parsedLogs);
+      setCurrentLogIndex(parsedLogs.length - 1); // Set to the latest log
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save logs to localStorage whenever they are updated
+    localStorage.setItem("logEntries", JSON.stringify(logEntries));
+  }, [logEntries]);
+
   const handleSaveKey = () => {
     if (openAiKey) {
       // Encrypt the key (simple base64 for demonstration; replace with stronger encryption in production)
@@ -66,7 +81,7 @@ function App() {
       dangerouslyAllowBrowser: true, // Enable browser usage with caution
     });
 
-    const prompt = `Generate a professional, simple sentence that provides availability for the following 5 days based on the provided time slots. Group contiguous time slots together:\n\n${selectedTimeBlocks.join(", ")}`;
+    const prompt = `Generate a professional and concise sentence summarizing availability over the next five days, based on the provided time slots. Each time slot marks the start of a 30-minute availability window. Consecutive time slots should be grouped into a single time range (e.g., 3:00 PM and 3:30 PM become 3:00–4:00 PM). Write from the user's perspective, presenting their availability in Eastern Standard Time (EST) in a polished, professional tone:\n\n${selectedTimeBlocks.join(", ")}`;
 
     try {
       // Default to 'gpt-3.5-turbo' if no model is selected
