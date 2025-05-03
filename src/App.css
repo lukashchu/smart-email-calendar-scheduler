@@ -191,3 +191,58 @@ input[type="password"]:focus {
 .copy-button:active {
   transform: scale(0.98);
 }
+/* Existing styles... */
+
+/* Dark Mode Styles */
+body.dark-mode .App {
+    color: white; /* Invert text color */
+}
+
+body.dark-mode .container {
+    background-color: #333; /* Dark background color */
+}
+
+body.dark-mode .calendar-table th,
+body.dark-mode .calendar-table td {
+    border-color: #666; /* Darker border color */
+    color: white;
+}
+
+body.dark-mode .calendar-table td.time-block {
+    background-color: #444; /* Darker time block color */
+}
+
+body.dark-mode .calendar-table td.time-block:hover {
+    background-color: #555; /* Darker hover color */
+}
+
+body.dark-mode .calendar-table td.time-block.selected {
+    background-color: #00aaff; /* Lighter blue for selected blocks */
+    color: #222;
+}
+
+body.dark-mode input[type="password"] {
+    background-color: #444;
+    color: white;
+    border-color: #666;
+}
+
+body.dark-mode input[type="password"]:focus {
+    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+}
+
+body.dark-mode .availability-output {
+    background-color: #444;
+    color: white;
+    border-color: #666;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Weekend Styling */
+.calendar-table td.time-block.weekend {
+    background-color: #f0f0f0; /* Light gray for weekends */
+}
+
+body.dark-mode .calendar-table td.time-block.weekend {
+    background-color: #555; /* Darker gray for weekends in dark mode */
+}
