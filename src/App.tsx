@@ -182,6 +182,12 @@ function App() {
             ▶
           </button>
         </div>
+        {/* Add a "Learn more" link at the bottom of the settings page */}
+        <p style={{ marginTop: "2rem" }}>
+          <a href="https://isadeks.github.io/smart-email-landing-page/" target="_blank" rel="noopener noreferrer">
+            Learn more
+          </a>
+        </p>
       </div>
     );
   }
