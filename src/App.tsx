@@ -50,15 +50,16 @@ function App() {
       localStorage.setItem("encryptedOpenAiKey", encryptedKey);
       setIsKeySaved(true);
     }
-  useEffect(() => {
+
+  };
+
+    useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
   }, [darkMode]);
-
-  };
 
 const generateTimeBlocks = () => {
     const timeBlocks = [];
@@ -159,22 +160,23 @@ const generateTimeBlocks = () => {
 
   if (isSettingsPage) {
     return (
-      <div className="App">
-        <button className="back-button" onClick={() => setIsSettingsPage(false)}>
+      <div className="App settings-page">
+        <button className="back-button icon-button" onClick={() => setIsSettingsPage(false)}>
           <span role="img" aria-label="Back">🔙</span>
         </button>
         <h1>Settings</h1>
-        <button
-          className="remove-key-button"
-          onClick={() => {
-            localStorage.removeItem("encryptedOpenAiKey");
-            setIsKeySaved(false);
-          }}
-        >
-          Remove OpenAI Key
-        </button>
-        {/* Dark Mode Toggle */}
-        <div>
+        <div className="form-group">
+          <button
+            className="remove-key-button" // This could be styled as a danger button
+            onClick={() => {
+              localStorage.removeItem("encryptedOpenAiKey");
+              setIsKeySaved(false);
+            }}
+          >
+            Remove OpenAI Key
+          </button>
+        </div>
+        <div className="form-group">
             <label htmlFor="darkMode">Dark Mode:</label>
             <input
                 type="checkbox"
@@ -183,8 +185,7 @@ const generateTimeBlocks = () => {
                 onChange={(e) => setDarkMode(e.target.checked)}
             />
         </div>
-        {/* Time Zone Selection */}
-        <div>
+        <div className="form-group">
             <label htmlFor="timeZone">Time Zone:</label>
             <select
                 id="timeZone"
@@ -196,7 +197,7 @@ const generateTimeBlocks = () => {
                 {/* Add more options */}
             </select>
         </div>
-        <div className="model-selection">
+        <div className="model-selection form-group">
           <label htmlFor="model-select">Select OpenAI Model:</label>
           <select
             id="model-select"
@@ -207,22 +208,22 @@ const generateTimeBlocks = () => {
             <option value="gpt-4">GPT-4</option>
           </select>
         </div>
-        <div className="spacer" style={{ marginBottom: "2rem" }}></div>
         {/* Log viewer at the bottom of the settings page */}
-        <div className="log-viewer" style={{ textAlign: "center" }}>
-          <h2 style={{ marginBottom: "1rem" }}>Output History</h2>
-          <div className="log-box" style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", marginBottom: "1rem" }}>
+        <div className="log-viewer settings-log-viewer">
+          <h2>Output History</h2>
+          <div className="log-box">
             {logEntries[currentLogIndex] || "No logs available"}
           </div>
-          <button onClick={handlePreviousLog} disabled={currentLogIndex === 0} style={{ marginRight: "1rem" }}>
-            ◀
-          </button>
-          <button onClick={handleNextLog} disabled={currentLogIndex === logEntries.length - 1} style={{ marginLeft: "1rem" }}>
-            ▶
-          </button>
+          <div className="log-navigation">
+            <button onClick={handlePreviousLog} disabled={currentLogIndex === 0}>
+              ◀
+            </button>
+            <button onClick={handleNextLog} disabled={currentLogIndex === logEntries.length - 1}>
+              ▶
+            </button>
+          </div>
         </div>
-        {/* Add a "Learn more" link at the bottom of the settings page */}
-        <p style={{ marginTop: "2rem" }}>
+        <p className="learn-more-link">
           <a href="https://isadeks.github.io/smart-email-landing-page/" target="_blank" rel="noopener noreferrer">
             Learn more
           </a>
