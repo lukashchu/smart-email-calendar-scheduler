@@ -1,14 +1,32 @@
+/* General Styles */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --font-family: 'Arial, sans-serif';
+  --border-radius: 8px;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
 .App {
-    color: black;
-    text-align: center;
+  color: black;
+  text-align: center;
+  padding: 20px; /* Add padding around the main App container */
 }
 
 .container {
-  width: 400px;
+  width: 90%; /* Make the container responsive */
+  max-width: 600px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the container */
   padding: 1rem;
   background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
+/* Calendar Table Styles */
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
@@ -18,9 +36,14 @@
 .calendar-table th,
 .calendar-table td {
   border: 1px solid #ddd;
-  padding: 0.5rem;
+  padding: 0.75rem; /* Slightly larger padding */
   text-align: center;
   cursor: pointer;
+}
+
+.calendar-table th {
+  background-color: #f2f2f2; /* Light background for header */
+  font-weight: bold;
 }
 
 .calendar-table td.time-block {
@@ -33,25 +56,31 @@
 }
 
 .calendar-table td.time-block.selected {
-  background-color: #007bff; /* Blue color */
+  background-color: var(--primary-color);
   color: white;
 }
 
-/* Add hover effect for selected time blocks */
 .calendar-table td.time-block.selected:hover {
-  background-color: #0056b3; /* Slightly darker blue */
+  background-color: #0056b3;
 }
 
+/* Weekend Styling */
+.calendar-table td.time-block.weekend {
+  background-color: #f0f0f0;
+}
+
+/* Button Styles */
 button {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem; /* Adjusted padding */
   border: none;
-  border-radius: 8px;
-  background-color: #007bff;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
   color: white;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 0.5rem; /* Add spacing between buttons */
 }
 
 button:hover {
@@ -67,84 +96,77 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.settings-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
+/* Settings and Back Buttons */
+.settings-button,
 .back-button {
   position: absolute;
   top: 10px;
-  left: 10px;
   font-size: 1.5rem;
   background: none;
   border: none;
   cursor: pointer;
+  transition: transform 0.2s;
+  /* Remove hover color change */
 }
 
-.settings-button:hover {
-  color: inherit !important; /* Prevent hover color change */
-  background: none !important;
-  border: none !important;
-  transform: scale(1.1);
+.settings-button {
+  right: 10px;
 }
 
+.back-button {
+  left: 10px;
+}
+
+.settings-button:hover,
 .back-button:hover {
-  color: inherit !important; /* Prevent hover color change */
-  background: none !important;
-  border: none !important;
   transform: scale(1.1);
+  color: var(--primary-color); /* Change color on hover */
 }
 
+/* Input Styles */
 input[type="password"] {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 1rem; /* Add spacing between the text field and the button */
+  margin-bottom: 1rem;
 }
 
 input[type="password"]:focus {
-  border-color: #007bff;
+  border-color: var(--primary-color);
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Add spacing and style for the availability output */
+/* Availability Output Styles */
 .generate-availability-button {
-  margin-bottom: 1rem; /* Add space below the button */
+  margin-bottom: 1rem;
 }
 
-/* Enhance the text box for modern UI */
 .availability-output {
   border: 1px solid #ccc;
-  padding: 1rem; /* Increase padding for a larger appearance */
-  border-radius: 8px; /* Rounder corners for modern design */
-  background-color: #ffffff; /* Pure white background for a clean look */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  font-size: 1.1rem; /* Slightly larger font for better readability */
-  white-space: pre-wrap; /* Preserve whitespace for better formatting */
-  position: relative; /* Set the text box as the positioning context */
+  padding: 1.25rem; /* Increased padding */
+  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  white-space: pre-wrap;
+  position: relative;
+  text-align: left; /* Align text to the left */
 }
 
-/* Add spacing and modern UI design for the model selection */
+/* Model Selection Styles */
 .remove-key-button {
-  margin-bottom: 1.5rem; /* Add space below the Remove AI Key button */
+  margin-bottom: 1.5rem;
 }
 
-/* Center the model selection dropdown */
 .model-selection {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the dropdown */
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -156,20 +178,22 @@ input[type="password"]:focus {
 
 .model-selection select {
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   background-color: #f9f9f9;
   transition: border-color 0.3s;
+  width: 100%; /* Make the select box fill the container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 .model-selection select:focus {
-  border-color: #007bff;
+  border-color: var(--primary-color);
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Adjust the copy button to be positioned relative to the text box */
+/* Copy Button Styles */
 .copy-button {
   position: absolute;
   top: -2rem;
@@ -182,7 +206,7 @@ input[type="password"]:focus {
 }
 
 .copy-button:hover {
-  color: inherit !important; /* Prevent hover color change */
+  color: inherit !important;
   background: none !important;
   border: none !important;
   transform: scale(1.1);
@@ -191,58 +215,96 @@ input[type="password"]:focus {
 .copy-button:active {
   transform: scale(0.98);
 }
-/* Existing styles... */
 
 /* Dark Mode Styles */
 body.dark-mode .App {
-    color: white; /* Invert text color */
+  color: white;
 }
 
 body.dark-mode .container {
-    background-color: #333; /* Dark background color */
+  background-color: #333;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .calendar-table th,
 body.dark-mode .calendar-table td {
-    border-color: #666; /* Darker border color */
-    color: white;
+  border-color: #666;
+  color: white;
 }
 
 body.dark-mode .calendar-table td.time-block {
-    background-color: #444; /* Darker time block color */
+  background-color: #444;
 }
 
 body.dark-mode .calendar-table td.time-block:hover {
-    background-color: #555; /* Darker hover color */
+  background-color: #555;
 }
 
 body.dark-mode .calendar-table td.time-block.selected {
-    background-color: #00aaff; /* Lighter blue for selected blocks */
-    color: #222;
+  background-color: #00aaff;
+  color: #222;
 }
 
 body.dark-mode input[type="password"] {
-    background-color: #444;
-    color: white;
-    border-color: #666;
+  background-color: #444;
+  color: white;
+  border-color: #666;
 }
 
 body.dark-mode input[type="password"]:focus {
-    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+  box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
 }
 
 body.dark-mode .availability-output {
-    background-color: #444;
-    color: white;
-    border-color: #666;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-/* Weekend Styling */
-.calendar-table td.time-block.weekend {
-    background-color: #f0f0f0; /* Light gray for weekends */
+  background-color: #444;
+  color: white;
+  border-color: #666;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .calendar-table td.time-block.weekend {
-    background-color: #555; /* Darker gray for weekends in dark mode */
+  background-color: #555;
 }
+
+/* Settings Page Styles */
+.settings-page {
+  padding: 20px;
+}
+
+.settings-page h1 {
+  margin-bottom: 20px;
+}
+
+.settings-page label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.settings-page input[type="checkbox"],
+.settings-page select {
+  margin-bottom: 15px;
+}
+
+/* Log Viewer Styles */
+.log-viewer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.log-box {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+  min-height: 100px; /* Ensure the log box has a minimum height */
+}
+
+body.dark-mode .log-box {
+  background-color: #444;
+  color: white;
+  border-color: #666;
+}
+
+/* Add more specific styles as needed */
